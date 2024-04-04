@@ -2,7 +2,6 @@
 // Get the button elements and add event listeners to them
 
 document.addEventListener("DOMContentLoaded", function() {
-
     let buttons = document.getElementsByTagName("button");
 
     for (let button of buttons){
@@ -31,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function() {
  * and after the user's answer has been processed
  */
 function runGame(gameType) {
-
     document.getElementById("answer-box").value = "";
     document.getElementById("answer-box").focus();
 
@@ -45,6 +43,8 @@ function runGame(gameType) {
         displayMultiplyQuestion(num1, num2);
     } else if (gameType === "subtract") {
         displaySubtractQuestion(num1, num2);
+    } else if (gameType === "division") {
+        displayDivideQuestion(num1, num2);
     } else {
         alert(`Unknown game type: ${gameType}`);
         throw `Unknown game type: ${gameType}. Aborting!`;
@@ -56,7 +56,6 @@ function runGame(gameType) {
  * the returned calculateCorrectAnswer array
  */
 function checkAnswer() {
-
     let userAnswer = parseInt(document.getElementById("answer-box").value);
     let calculatedAnswer = calculateCorrectAnswer();
     let isCorrect = userAnswer === calculatedAnswer[0];
@@ -77,7 +76,6 @@ function checkAnswer() {
  * directly from the DOM, and returns the correct answer
  */
 function calculateCorrectAnswer() {
-
     let operand1 = parseInt(document.getElementById("operand1").innerText);
     let operand2 = parseInt(document.getElementById("operand2").innerText);
     let operator = document.getElementById("operator").innerText;
@@ -88,6 +86,8 @@ function calculateCorrectAnswer() {
         return [operand1 * operand2, "multiply"]
     } else if (operator === "-") {
         return [operand1 - operand2, "subtract"];
+    } else if (operator === "/") {
+        return [operand1 / operand2, "division"];
     } else {
         alert(`Unimplemented operator ${operator}`);
         throw `Unimplemented operator ${operator}. Aborting!`;
@@ -98,7 +98,6 @@ function calculateCorrectAnswer() {
  * Gets the current score from the DOm and increments it by 1
  */
 function incrementScore() {
-
     let oldScore = parseInt(document.getElementById("score").innerText);
     document.getElementById("score").innerText = ++oldScore;
 }
@@ -107,7 +106,6 @@ function incrementScore() {
  * Gets the current tally of incorrect answers from the DOm and increments it by 1
  */
 function incrementWrongAnswer() {
-
     let oldScore = parseInt(document.getElementById("incorrect").innerText);
     document.getElementById("incorrect").innerText = ++oldScore;
 }
@@ -128,4 +126,10 @@ function displayMultiplyQuestion(operand1, operand2) {
     document.getElementById("operand1").textContent = operand1;
     document.getElementById("operand2").textContent = operand2;
     document.getElementById("operator").textContent = "x";
+}
+
+function displayDivideQuestion(operand1, operand2){
+    document.getElementById("operand1").textContent = operand1 * operand2;
+    document.getElementById("operand2").textContent = operand2;
+    document.getElementById("operator").textContent = "/";
 }
